@@ -5,25 +5,35 @@
     <title>漳平一中头像生成器</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+    <style>
+        .p-info {
+            border: khaki 1px solid;
+            background-color: #fff9cb;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body style="text-align: center;">
 <div id="origin" style="position: relative;display:inline-block;width:300px;height:300px;">
     <div style="position:absolute;">
-        <img src="border-flag.png" width="300" height="300"/>
+        <img src="border.png" width="300" height="300"/>
     </div>
     <img id="img_origin" src="tip.png" width="200" height="200" style="padding-top: 50px"/>
 </div>
 <input type="file" name="file" id="file" style="display:none;"/>
 <div id="show" style="display: none;text-align: center;">
     <img id="img_result" width="300" height="300"/>
-    <p style="border: khaki 1px solid; background-color: #fff9cb;padding: 10px;">长按保存头像</p>
+    <p class="p-info"><a id="download" download="avatar.png">点击保存头像</a></p>
+    <p class="p-info"><a href="javascript:redo()">重做</a></p>
 </div>
+<p class="p-info"><a href="index.html">普通版</a></p>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 <script>
     let div_origin = document.getElementById("origin");
     let div_show = document.getElementById("show");
     let img_origin = document.getElementById("img_origin");
     let img_result = document.getElementById("img_result");
+    let a_download = document.getElementById('download');
 
     document.getElementById("file").addEventListener("change", function () {
         let file = this.files[0];
@@ -33,6 +43,7 @@
             html2canvas(div_origin).then(function (canvas) {
                 img_result.setAttribute("crossOrigin", 'Anonymous');
                 img_result.src = canvas.toDataURL("image/png");
+                a_download.href = canvas.toDataURL("image/png");
                 div_show.style.display = 'block';
                 div_origin.style.display = 'none';
             });
@@ -42,6 +53,12 @@
     div_origin.addEventListener("click", function () {
         document.getElementById("file").click();
     });
+
+    function redo() {
+        div_show.style.display = 'none';
+        div_origin.style.display = 'inline-block';
+        img_origin.src = 'tip.png';
+    }
 </script>
 <div style="position: fixed;bottom: 25px;">
     <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
